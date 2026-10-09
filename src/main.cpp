@@ -70,15 +70,30 @@ Robot robot{mouseIO};
 StateMachine mouse{};
 Gyro gyro{};
 
+int emitterPin = 33;
+int recieverPin = 41;
+int val;
+
 void setup() { 
   gyro.initializeGyro();
   Serial.begin(9600);
+  pinMode(emitterPin, INPUT);
+  pinMode(recieverPin, OUTPUT);
 }
 void loop() {
+  digitalWrite(emitterPin, HIGH);
+  val = analogRead(recieverPin);
+  Serial.println(val);
+
+  delayNanoseconds(3);
+  delay(200);
+
+  /*
   if (gyro.update())
   {
     Serial.printf("Yaw: %.02f", gyro.ypr[0]);
     Serial.printf("Yaw: %.02f", gyro.ypr[1]);
     Serial.printf("Yaw: %.02f", gyro.ypr[2]);
   }
+  */
 }
