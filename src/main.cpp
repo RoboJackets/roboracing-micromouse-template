@@ -15,6 +15,8 @@ struct Gyro {
   Quaternion q;
   VectorFloat gravity;
 
+  elapsedMicros timer;
+
   void initializeGyro(){
     Wire.begin();
     Wire.setClock(400000);
@@ -55,21 +57,33 @@ struct Gyro {
 };
 
 //ch
-Gyro gyro{};
+//Gyro gyro{};
 
 void setup() { 
-  pinMode(22, OUTPUT);
+  pinMode(33, OUTPUT);
 
   //ch
   Serial.begin(115200);
-  gyro.initializeGyro();
+  //gyro.initializeGyro();
 }
 
 void loop() {
-  // digitalWrite(22, HIGH);
+
+  digitalWrite(33, HIGH); //on
+  delayMicroseconds(300); //wait for 300 microseconds
+  int val = analogRead(A14); // Read analog pin 38 (formerly A8)
+  Serial.println(val); //print print time yay
+  digitalWrite(33, LOW); //off
+  delay(100); //yolo lmao
+
+
+  //delayMicroseconds(300);
+
+  //light flash
+  // digitalWrite(2, HIGH);
   // delay(100);
   // digitalWrite(22, LOW);
-  // delay(100);
+  //delay(100);
 
   // Serial.printf("Accel X: %d ", gyro.mpu.getAccelerationX());
   // Serial.print(" ");
@@ -81,9 +95,9 @@ void loop() {
 //Serial.printf("Test\n");
   //Serial.printf("accel: %d %d %d\n", gyro.mpu.getAccelerationX(), gyro.mpu.getAccelerationY(), gyro.mpu.getAccelerationZ());
   //ch 
-if (gyro.update()) {
-    Serial.printf("ypr: %f %f %f\n", gyro.ypr[0] * (180.0 / M_PI), gyro.ypr[1] * (180.0 / M_PI), gyro.ypr[2] * (180.0 / M_PI));
-  }
+// if (gyro.update()) {
+//     Serial.printf("ypr: %f %f %f\n", gyro.ypr[0] * (180.0 / M_PI), gyro.ypr[1] * (180.0 / M_PI), gyro.ypr[2] * (180.0 / M_PI));
+//   }
 
 }
 
