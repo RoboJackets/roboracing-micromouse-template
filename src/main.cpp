@@ -1,15 +1,21 @@
 #include <Arduino.h>
 
-#include "StateMachine.h"
-#include "robot/Robot.h"
-#include "TeensyIO.h"
+const int emitterPin = 33;
+const int sensorPin = A14;  // Teensy pin 38
 
-TeensyIO mouseIO{};
-Robot robot{mouseIO};
-StateMachine mouse{};
-
-void setup() { mouse.init(robot); }
+void setup() {
+  pinMode(emitterPin, OUTPUT);
+  digitalWrite(emitterPin, LOW);
+  Serial.begin(115200);
+}
 
 void loop() {
-  mouse.tick(robot);
+  digitalWrite(emitterPin, HIGH);
+  delayMicroseconds(300);
+
+  int sensorValue = analogRead(sensorPin);
+
+  digitalWrite(emitterPin, LOW);
+  Serial.println(sensorValue);
+  delay(100);
 }
