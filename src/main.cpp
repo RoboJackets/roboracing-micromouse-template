@@ -82,10 +82,12 @@ void setup() {
 }
 void loop() {
   digitalWrite(emitterPin, HIGH);
+  delayMicroseconds(300);
+
   val = analogRead(recieverPin);
   Serial.println(val);
 
-  delayNanoseconds(3);
+  digitalWrite(emitterPin, HIGH);
   delay(200);
 
   /*
