@@ -8,7 +8,7 @@ TeensyIO mouseIO{};
 Robot robot{mouseIO};
 StateMachine mouse{};
 int pinEmitter = 5;
-int pinReceiver = 14;
+int pinReceiver = 41;
 
 void setup() { 
   mouse.init(robot);
