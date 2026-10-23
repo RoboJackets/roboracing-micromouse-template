@@ -73,14 +73,36 @@ Gyro gyro{};
 int emitterPin = 33;
 int recieverPin = 41;
 int val;
+int _in1;
+int _in2;
+int _stby;
+int _offset;
 
 void setup() { 
+  // Gyro Code
   gyro.initializeGyro();
+
   Serial.begin(9600);
+
+  // IR stuff
   pinMode(emitterPin, INPUT);
   pinMode(recieverPin, OUTPUT);
+
+  // H Bridge
+  pinMode(_in1, OUTPUT);
+  pinMode(_in2, OUTPUT);
+  pinMode(_stby, OUTPUT);
+  digitalWrite(_stby, HIGH);
+  digitalWrite(_in1, LOW);
+  digitalWrite(_in2, LOW);
 }
 void loop() {
+  drive(120);
+  delay(1000);
+  drive(0);  
+  delay(500);
+
+  /* IR sensor code
   digitalWrite(emitterPin, HIGH);
   delayMicroseconds(300);
 
@@ -89,8 +111,9 @@ void loop() {
 
   digitalWrite(emitterPin, HIGH);
   delay(200);
+  */
 
-  /*
+  /* Gyro Code
   if (gyro.update())
   {
     Serial.printf("Yaw: %.02f", gyro.ypr[0]);
@@ -98,4 +121,29 @@ void loop() {
     Serial.printf("Yaw: %.02f", gyro.ypr[2]);
   }
   */
+}
+
+void drive(int speed) {
+  digitalWrite(_stby, HIGH);
+
+  analogWrite(_in1, 0);
+  analogWrite(_in2, 0);
+  digitalWrite(_in1, LOW);
+  digitalWrite(_in2, LOW);
+
+  if (speed * _offset > 0) {
+    digitalWrite(_in2, LOW);
+    analogWrite(_in1, std::abs(speed));
+  } else if (speed * _offset < 0) {
+    digitalWrite(_in1, LOW);
+    analogWrite(_in2, std::abs(speed));
+  } else {
+    digitalWrite(_in1, LOW);
+    digitalWrite(_in2, LOW);
+  }
+}
+
+void brake() {
+  digitalWrite(_in1, HIGH);
+  digitalWrite(_in2, HIGH);
 }
