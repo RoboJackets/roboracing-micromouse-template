@@ -73,55 +73,12 @@ Gyro gyro{};
 int emitterPin = 33;
 int recieverPin = 41;
 int val;
-int _in1;
-int _in2;
-int _stby;
-int _offset;
-
-void setup() { 
-  // Gyro Code
-  gyro.initializeGyro();
-
-  Serial.begin(9600);
-
-  // IR stuff
-  pinMode(emitterPin, INPUT);
-  pinMode(recieverPin, OUTPUT);
-
-  // H Bridge
-  pinMode(_in1, OUTPUT);
-  pinMode(_in2, OUTPUT);
-  pinMode(_stby, OUTPUT);
-  digitalWrite(_stby, HIGH);
-  digitalWrite(_in1, LOW);
-  digitalWrite(_in2, LOW);
-}
-void loop() {
-  drive(120);
-  delay(1000);
-  drive(0);  
-  delay(500);
-
-  /* IR sensor code
-  digitalWrite(emitterPin, HIGH);
-  delayMicroseconds(300);
-
-  val = analogRead(recieverPin);
-  Serial.println(val);
-
-  digitalWrite(emitterPin, HIGH);
-  delay(200);
-  */
-
-  /* Gyro Code
-  if (gyro.update())
-  {
-    Serial.printf("Yaw: %.02f", gyro.ypr[0]);
-    Serial.printf("Yaw: %.02f", gyro.ypr[1]);
-    Serial.printf("Yaw: %.02f", gyro.ypr[2]);
-  }
-  */
-}
+int _in1 = 14;
+int _in2 = 15;
+int _out1 = 23;
+int _out2 = 22;
+int _stby = 1;
+int _offset = 1;
 
 void drive(int speed) {
   digitalWrite(_stby, HIGH);
@@ -146,4 +103,57 @@ void drive(int speed) {
 void brake() {
   digitalWrite(_in1, HIGH);
   digitalWrite(_in2, HIGH);
+}
+
+void setup() { 
+  /* Gyro code
+  gyro.initializeGyro();
+  */
+
+  Serial.begin(9600);
+
+  /* IR STUFF
+  pinMode(emitterPin, OUTPUT);
+  pinMode(recieverPin, INPUT);
+  */
+
+  // H Bridge
+  pinMode(_in1, OUTPUT);
+  pinMode(_in2, OUTPUT);
+  pinMode(_stby, OUTPUT);
+  pinMode(23, INPUT);
+  pinMode(22, INPUT);
+  digitalWrite(_stby, HIGH);
+  digitalWrite(_in1, LOW);
+  digitalWrite(_in2, LOW);
+}
+void loop() {
+  brake();
+  //Serial.println("22: " + analogRead(22));
+  int out1 = analogRead(_out1);
+  int out2 = analogRead(_out2);
+  Serial.printf("O1: %d", out1);
+  Serial.printf(" O2: %d", out2);
+  Serial.println("");
+  delay(100);
+
+  /* IR sensor code
+  digitalWrite(emitterPin, HIGH)
+  delayMicroseconds(300);
+
+  val = analogRead(recieverPin);
+  Serial.println(val);
+
+  digitalWrite(emitterPin, HIGH);
+  delay(200);
+  */
+
+  /* Gyro Code
+  if (gyro.update())
+  {
+    Serial.printf("Yaw: %.02f", gyro.ypr[0]);
+    Serial.printf("Yaw: %.02f", gyro.ypr[1]);
+    Serial.printf("Yaw: %.02f", gyro.ypr[2]);
+  }
+  */
 }
