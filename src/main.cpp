@@ -73,8 +73,8 @@ Gyro gyro{};
 int emitterPin = 33;
 int recieverPin = 41;
 int val;
-int _in1 = 14;
-int _in2 = 15;
+int _in1 = 2;
+int _in2 = 3;
 int _out1 = 23;
 int _out2 = 22;
 int _stby = 1;
@@ -121,20 +121,23 @@ void setup() {
   pinMode(_in1, OUTPUT);
   pinMode(_in2, OUTPUT);
   pinMode(_stby, OUTPUT);
-  pinMode(23, INPUT);
-  pinMode(22, INPUT);
+  pinMode(_out1, INPUT);
+  pinMode(_out2, INPUT);
   digitalWrite(_stby, HIGH);
   digitalWrite(_in1, LOW);
   digitalWrite(_in2, LOW);
 }
 void loop() {
-  brake();
-  //Serial.println("22: " + analogRead(22));
+  drive(256);
+
+  /*
   int out1 = analogRead(_out1);
-  int out2 = analogRead(_out2);
+  int out2 = analogRead(_out2);h
   Serial.printf("O1: %d", out1);
   Serial.printf(" O2: %d", out2);
   Serial.println("");
+  */
+
   delay(100);
 
   /* IR sensor code
