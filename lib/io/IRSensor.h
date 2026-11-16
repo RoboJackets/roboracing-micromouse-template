@@ -10,9 +10,17 @@ struct IRSensor {
   double a;
   double b;
 
+  void begin();
+  int readPost() const;
+
   double metersFrom(int post) const {
     if (post > 20)
       return a / std::pow(post, b);
+
     return std::numeric_limits<double>::infinity();
+  }
+
+  double readDistance() const {
+    return metersFrom(readPost());
   }
 };
