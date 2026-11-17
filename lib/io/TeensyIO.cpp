@@ -11,7 +11,7 @@ void TeensyIO::poll() {
 }
 
 bool TeensyIO::buttonPressed() {
-    return false;
+    return ;
 }
 
 double TeensyIO::now() {

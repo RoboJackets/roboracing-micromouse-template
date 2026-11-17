@@ -14,10 +14,9 @@ struct TeensyIO : MouseIO {
   double rightMeters() const override { return 0.0; }
   double gyroYaw() const override { return 0.0; }
   
-  const std::array<double, 4> &irMeters() const override { 
-    return {
-        0.0, 0.0, 0.0, 0.0
-    };
+  std::array<double, 4> ir_{};
+  const std::array<double, 4> &irMeters() const override {
+    return ir_;
   }
 
   bool buttonPressed() override;
