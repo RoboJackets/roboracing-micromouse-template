@@ -3,7 +3,7 @@
 #include "robot/Robot.h"
 
 void StateMachine::init(Robot &r) {
-
+  r.init();
 }
 
 void StateMachine::tick(Robot &r) {
