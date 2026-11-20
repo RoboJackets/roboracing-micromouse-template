@@ -15,7 +15,14 @@ void TeensyIO::setMotorPwm(double left, double right) {
 }
 
 void TeensyIO::poll() {
+  // get IR sensors
+  for (size_t i = 0; i < sensors.size(); i++) {
+    IRSensor &sensor = sensors[i];
+    digitalWrite(sensor.EMIT, HIGH);
+    // TODO
 
+  }
+  // get gyros
 }
 
 bool TeensyIO::buttonPressed() {
