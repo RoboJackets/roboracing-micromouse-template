@@ -8,7 +8,7 @@
 
 struct TeensyIO : MouseIO {
 
-  // 4 IR sensor format: {emitter_pin, reciever_pin, calibration1, calibration2}
+  // 4 IR sensor format: {2 front, 2 back}
   // I don't know what cal1 cal2 are
   std::array<IRSensor, 4> sensors{IRSensor{0, 0, 0, 0},
                                 IRSensor{0, 0, 0, 0},
@@ -18,6 +18,8 @@ struct TeensyIO : MouseIO {
 
   MPU6050Gyro gyro;
   double sampledYaw = 0;
+  uint32_t lastMicros = 0;
+  uint64_t microsAccum = 0;
 
   std::array<double, 4> sampledIr{}; // will have the 4 ir values
 

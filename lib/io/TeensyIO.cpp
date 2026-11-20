@@ -19,10 +19,16 @@ void TeensyIO::poll() {
   for (size_t i = 0; i < sensors.size(); i++) {
     IRSensor &sensor = sensors[i];
     digitalWrite(sensor.EMIT, HIGH);
-    // TODO
+    delay(1000);
+    int post = sensor.readPost();
+    digitalWrite(sensor.EMIT, LOW);
+    sampledIr[i] = sensor.metersFrom(post);
+
 
   }
-  // get gyros
+  gyro.update();
+  sampledYaw = gyro.ypr[0];
+
 }
 
 bool TeensyIO::buttonPressed() {
@@ -30,7 +36,10 @@ bool TeensyIO::buttonPressed() {
 }
 
 double TeensyIO::now() {
-  return 0.0;
+  const uint32_t m = micros();
+  microsAccum += static_cast<uint32_t>(m - lastMicros);
+  lastMicros = m;
+  return microsAccum * 1e-6;
 }
 
 void TeensyIO::init() {
